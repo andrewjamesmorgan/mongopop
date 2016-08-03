@@ -1,0 +1,62 @@
+extends layout
+
+block content
+	h1= title
+	// p Welcome to #{title}
+	if data
+		p #{data}
+	p The IP address of the server running MongoPop is #{ip}; please make sure you've added this to your #[a(href="https://cloud.mongodb.com") MongoDB Atlas] IP Whitelist.
+	div.getRequest
+		form(name="requestPop", action="/pop", method="post")
+			fieldset(data-role='Populate Collection Data')
+				legend Add JSON documents
+				br
+				label Driver Connection String From Your #[a(href="https://cloud.mongodb.com") MongoDB Atlas UI]: 
+				if previousURI
+					input(type="text", size="60", name="uri", id="uri", value="#{previousURI}") 
+				else
+					input(type="text", size="60", name="uri", id="uri", value="mongodb://localhost:27017")
+				br
+				br
+				label MongoDB Atlas User Password: 
+				if previousPassword
+					input(type="password", name="password", id="password", value="#{previousPassword}")
+				else
+					input(type="password", name="password", id="password")
+				br
+				br
+				label Database Name: 
+				if previousDatabase
+					input(type="text", name="database", id="database", value="#{previousDatabase}") 
+				else
+					input(type="text", name="database", id="database", value="mongopop")
+				br
+				br
+				label Collection Name: 
+				if previousCollection
+					input(type="text", name="collection", id="collection", value="#{previousCollection}") 
+				else
+					input(type="text", name="collection", id="collection", value="simples")
+				br
+				br
+				label URL to Fetch Document Array: 
+				if previousURL
+					input(type="text", size="70", name="url", id="url", value="#{previousURL}") 
+				else
+					input(type="text", size="70", name="url", id="url", value="http://www.mockaroo.com/c8c3d650/download?count=1000&key=a9b4b620")
+				br
+				label Create your own schema and register with #[a(href="https://www.mockaroo.com/") Mockaroo] to get your cutomized URL.
+				br
+				br
+				label How Many Thousands of Documents: 
+				if previousBatchSize
+					input(type="text", size="5", name="batchSize", id="batchSize", value="#{previousBatchSize}") 
+				else
+					input(type="text", size="5", name="batchSize", id="batchSize", value="1")
+				br
+				br
+				input(type="submit", value="populate")
+	if sampleDoc
+		p Sample document from #{previousDatabase}/#{previousCollection}:
+		#document.json
+			pre #{sampleDoc}
