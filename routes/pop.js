@@ -47,12 +47,18 @@ exports.add_pop = function(req, res) {
 			console.log("localhost URI with database: " + mongodbURI);
 		}
 	} else {
+		// The URI starts with the databaset set to 'admim', replace that with
+		// the one that the user has chosen
 		mongodbURI = mongodbURI.replace('admin', databaseName);
+
+		// Still need to use the 'admin' database to authenticate the user
 		mongodbURI = mongodbURI + '&authSource=admin';
 		console.log("URI with database: " + mongodbURI);
 	};
 
 	if (password) {
+		// The URI start with the password set to the string 'PASSWORD',
+		// overwrite that with the user-supplied one
 		mongodbURI = mongodbURI.replace('PASSWORD', password);
 		//console.log("URI with password: " + mongodbURI);
 	};
